@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f0e5">
+  <title>Get well soon</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      --ground: #f6f0e5;
+      --ink: #263d32;
+      --accent: #bd694b;
+      --ornament: #d7ddc6;
+      --type: Georgia, 'Times New Roman', serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--ground);
+      color: var(--ink);
+      font-family: var(--type);
+      transition: background-color 500ms ease, color 500ms ease;
+    }
+
+    button { font: inherit; }
+
+    .stage {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+      overflow: hidden;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .stage::before,
+    .stage::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .stage::before {
+      width: 52vw;
+      height: 52vw;
+      min-width: 340px;
+      min-height: 340px;
+      max-width: 760px;
+      max-height: 760px;
+      border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+      border-radius: 50%;
+      top: -34%;
+      right: -17%;
+      opacity: .7;
+    }
+
+    .stage::after {
+      width: 28vw;
+      height: 28vw;
+      min-width: 210px;
+      min-height: 210px;
+      max-width: 390px;
+      max-height: 390px;
+      border-radius: 50%;
+      background: var(--ornament);
+      bottom: -19%;
+      left: -9%;
+      opacity: .45;
+      filter: blur(1px);
+    }
+
+    .note {
+      position: relative;
+      width: min(100%, 990px);
+      min-height: min(680px, calc(100svh - 64px));
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(190px, .7fr);
+      align-items: center;
+      gap: 48px;
+      padding: 72px 76px;
+      animation: arrive 700ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .note-copy { position: relative; z-index: 1; }
+
+    .eyebrow {
+      display: block;
+      width: fit-content;
+      margin-bottom: 30px;
+      color: var(--accent);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 650px;
+      margin: 0;
+      font-size: 82px;
+      font-weight: 500;
+      line-height: .96;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .message {
+      max-width: 440px;
+      margin: 32px 0 0;
+      font-size: 21px;
+      line-height: 1.65;
+      text-wrap: pretty;
+    }
+
+    .signoff {
+      display: block;
+      margin-top: 32px;
+      color: var(--accent);
+      font-size: 17px;
+      font-style: italic;
+    }
+
+    .art {
+      display: grid;
+      min-width: 190px;
+      min-height: 250px;
+      place-items: center;
+      position: relative;
+      color: var(--accent);
+      font-size: 118px;
+      line-height: 1;
+      text-align: center;
+      filter: drop-shadow(0 14px 12px color-mix(in srgb, var(--ink) 11%, transparent));
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .art::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: var(--ornament);
+      opacity: .8;
+    }
+
+    .art span { display: block; position: relative; }
+
+    .shuffle {
+      position: fixed;
+      right: 28px;
+      bottom: 26px;
+      z-index: 5;
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent);
+      border-radius: 50%;
+      background: var(--ground);
+      color: var(--ink);
+      cursor: pointer;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 22px;
+      transition: transform 180ms ease, background-color 300ms ease;
+    }
+
+    .shuffle:hover { transform: rotate(45deg); }
+    .shuffle:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-9px) rotate(2deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+
+    @media (max-width: 720px) {
+      .stage { padding: 18px; }
+      .note {
+        min-height: calc(100svh - 36px);
+        grid-template-columns: 1fr;
+        align-content: center;
+        gap: 16px;
+        padding: 54px 27px 86px;
+      }
+      .eyebrow { margin-bottom: 22px; }
+      h1 { font-size: 56px; }
+      .message { margin-top: 22px; font-size: 18px; }
+      .signoff { margin-top: 22px; }
+      .art { grid-row: 1; min-height: 120px; font-size: 76px; }
+      .art::before { width: 130px; height: 130px; }
+      .shuffle { right: 19px; bottom: 18px; }
+    }
+
+    @media (max-width: 380px) {
+      h1 { font-size: 48px; }
+      .note { padding-inline: 21px; }
+      .message { font-size: 17px; }
+    }
+
+    /* Each note has its own palette, type, and composition. */
+    body[data-page="0"] { --ground:#f5eee2; --ink:#30483a; --accent:#b85f48; --ornament:#d9dfc4; --type:Georgia,serif; }
+    body[data-page="1"] { --ground:#172f3a; --ink:#f3e7c9; --accent:#e5a56c; --ornament:#34545a; --type:'Trebuchet MS',sans-serif; color-scheme:dark; }
+    body[data-page="2"] { --ground:#f7d95f; --ink:#252528; --accent:#e05a42; --ornament:#f1a94d; --type:'Palatino Linotype',Palatino,serif; }
+    body[data-page="3"] { --ground:#e5f1ed; --ink:#194d4d; --accent:#267c75; --ornament:#b7d8cb; --type:'Courier New',monospace; }
+    body[data-page="4"] { --ground:#f4e3e1; --ink:#583947; --accent:#ad5570; --ornament:#e7bcc5; --type:'Brush Script MT',cursive; }
+    body[data-page="5"] { --ground:#243d66; --ink:#f8f2e7; --accent:#f0bb58; --ornament:#406b86; --type:Georgia,serif; color-scheme:dark; }
+    body[data-page="6"] { --ground:#f1f3eb; --ink:#333f2f; --accent:#7b8e3f; --ornament:#d9e3b9; --type:'Lucida Sans Unicode',sans-serif; }
+    body[data-page="7"] { --ground:#eac48f; --ink:#4a2d24; --accent:#9a4935; --ornament:#d99470; --type:'Copperplate',fantasy; }
+    body[data-page="8"] { --ground:#d8e9f4; --ink:#243e5c; --accent:#c64f58; --ornament:#9fc8d6; --type:'Times New Roman',serif; }
+    body[data-page="9"] { --ground:#36302f; --ink:#f3e6cf; --accent:#d79361; --ornament:#514544; --type:'Courier New',monospace; color-scheme:dark; }
+    body[data-page="10"] { --ground:#f2ece4; --ink:#324b4a; --accent:#548b83; --ornament:#d4e3d8; --type:'Century Gothic',sans-serif; }
+    body[data-page="11"] { --ground:#f4d8c8; --ink:#532e37; --accent:#b94d58; --ornament:#e9a98e; --type:Georgia,serif; }
+    body[data-page="12"] { --ground:#dfe3b1; --ink:#35412d; --accent:#a14d37; --ornament:#c1cd79; --type:'Palatino Linotype',serif; }
+    body[data-page="13"] { --ground:#e8e3f2; --ink:#42375d; --accent:#8065a2; --ornament:#c7badf; --type:'Trebuchet MS',sans-serif; }
+    body[data-page="14"] { --ground:#f8efe2; --ink:#443a34; --accent:#c57c43; --ornament:#e9d8bd; --type:'Lucida Bright',Georgia,serif; }
+    body[data-page="15"] { --ground:#c9e6e3; --ink:#164950; --accent:#d45243; --ornament:#92c9c4; --type:'Courier New',monospace; }
+    body[data-page="16"] { --ground:#eee8d7; --ink:#5a4934; --accent:#738442; --ornament:#d4c38f; --type:'Bookman Old Style',Georgia,serif; }
+    body[data-page="17"] { --ground:#f3d9db; --ink:#462b43; --accent:#a33f67; --ornament:#e9aebb; --type:'Arial',sans-serif; }
+    body[data-page="18"] { --ground:#e3edf5; --ink:#273f50; --accent:#d1814f; --ornament:#b7cbd7; --type:'Georgia',serif; }
+    body[data-page="19"] { --ground:#e8eddf; --ink:#34423a; --accent:#a35140; --ornament:#d4dba9; --type:'Trebuchet MS',sans-serif; }
+
+    body[data-page="1"] .stage::before { width: 70vw; height: 70vw; top: 10%; right: -25%; border-style: dashed; }
+    body[data-page="1"] .note { grid-template-columns: .9fr 1.1fr; }
+    body[data-page="1"] .art { grid-column: 1; grid-row: 1; font-size: 150px; }
+    body[data-page="1"] .note-copy { grid-column: 2; grid-row: 1; }
+    body[data-page="2"] .note { grid-template-columns: 1fr; text-align: center; }
+    body[data-page="2"] .note-copy { grid-row: 1; }
+    body[data-page="2"] .eyebrow, body[data-page="2"] .message { margin-inline: auto; }
+    body[data-page="2"] .art { grid-row: 2; min-height: 125px; }
+    body[data-page="2"] .art::before { border-radius: 10px 50% 50% 50%; transform: rotate(45deg); }
+    body[data-page="3"] .note { border: 2px solid var(--ink); grid-template-columns: 1fr .8fr; }
+    body[data-page="3"] .art::before { border-radius: 0; transform: rotate(8deg); }
+    body[data-page="4"] .note { display: flex; flex-direction: column-reverse; justify-content: center; text-align: center; }
+    body[data-page="4"] .eyebrow, body[data-page="4"] .message { margin-inline: auto; }
+    body[data-page="4"] .art { min-height: 160px; }
+    body[data-page="4"] .art::before { border-radius: 45% 45% 8px 8px; }
+    body[data-page="5"] .note { grid-template-columns: 1.2fr .8fr; border-block: 1px solid var(--accent); }
+    body[data-page="5"] .stage::after { width: 15px; height: 15px; bottom: 18%; left: 18%; box-shadow: 80px -100px 0 2px var(--accent), 180px 50px 0 1px var(--accent), 250px -180px 0 2px var(--accent); opacity: .8; }
+    body[data-page="6"] .note { grid-template-columns: .7fr 1.3fr; }
+    body[data-page="6"] .art { grid-column: 2; grid-row: 1; }
+    body[data-page="6"] .note-copy { grid-column: 1; grid-row: 1; }
+    body[data-page="6"] h1 { font-family: Georgia,serif; }
+    body[data-page="7"] .note { border-radius: 48% 48% 6px 6px; background: color-mix(in srgb, var(--ground) 82%, white); box-shadow: 0 22px 65px #4a2d2422; }
+    body[data-page="7"] .art::before { border-radius: 50% 50% 4px 4px; }
+    body[data-page="8"] .note { grid-template-columns: 1fr 1fr; }
+    body[data-page="8"] h1 { font-style: italic; }
+    body[data-page="8"] .art::before { width: 250px; height: 160px; border-radius: 50%; transform: rotate(-20deg); }
+    body[data-page="9"] .note { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+    body[data-page="9"] .art { position: absolute; right: 4%; bottom: 4%; font-size: 175px; opacity: .42; }
+    body[data-page="9"] .art::before { width: 260px; height: 260px; background: var(--accent); }
+    body[data-page="10"] .note { grid-template-columns: 1fr; text-align: center; }
+    body[data-page="10"] .note-copy { grid-row: 2; }
+    body[data-page="10"] .eyebrow, body[data-page="10"] .message { margin-inline: auto; }
+    body[data-page="10"] .art { grid-row: 1; min-height: 145px; }
+    body[data-page="10"] .art::before { border: 1px solid var(--accent); background: transparent; box-shadow: 0 0 0 15px var(--ground), 0 0 0 16px var(--accent); }
+    body[data-page="11"] .note { grid-template-columns: 1fr .7fr; }
+    body[data-page="11"] h1 { font-family: 'Times New Roman',serif; }
+    body[data-page="11"] .art { transform: rotate(8deg); }
+    body[data-page="11"] .art::before { border-radius: 8px; transform: rotate(20deg); }
+    body[data-page="12"] .note { grid-template-columns: .9fr 1fr; }
+    body[data-page="12"] .art::before { width: 230px; height: 230px; border-radius: 20% 80% 30% 70%; }
+    body[data-page="13"] .note { grid-template-columns: 1fr; text-align: right; }
+    body[data-page="13"] .note-copy { justify-self: end; }
+    body[data-page="13"] .eyebrow, body[data-page="13"] .message { margin-left: auto; }
+    body[data-page="13"] .art { position: absolute; left: 4%; top: 50%; transform: translateY(-50%); opacity: .62; }
+    body[data-page="13"] .art::before { border-radius: 25% 60%; transform: rotate(30deg); }
+    body[data-page="14"] .note { border-left: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+    body[data-page="14"] .art { font-size: 132px; }
+    body[data-page="14"] .art::before { border-radius: 0; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+    body[data-page="15"] .note { grid-template-columns: 1fr .8fr; text-align: right; }
+    body[data-page="15"] .note-copy { grid-column: 2; grid-row: 1; }
+    body[data-page="15"] .art { grid-column: 1; grid-row: 1; }
+    body[data-page="15"] .eyebrow, body[data-page="15"] .message { margin-left: auto; }
+    body[data-page="15"] .art::before { border-radius: 18px 50% 50% 50%; }
+    body[data-page="16"] .note { grid-template-columns: 1fr; text-align: center; border: 1px solid var(--accent); outline: 1px solid var(--accent); outline-offset: -10px; }
+    body[data-page="16"] .eyebrow, body[data-page="16"] .message { margin-inline: auto; }
+    body[data-page="16"] .art { grid-row: 1; min-height: 130px; }
+    body[data-page="16"] .art::before { width: 170px; height: 170px; background: transparent; border: 2px dotted var(--accent); }
+    body[data-page="17"] .note { grid-template-columns: 1fr .8fr; }
+    body[data-page="17"] h1 { font-weight: 800; font-family: 'Arial Black',Arial,sans-serif; }
+    body[data-page="17"] .art::before { border-radius: 45% 45% 5px 5px; }
+    body[data-page="18"] .note { grid-template-columns: .75fr 1.25fr; }
+    body[data-page="18"] .art { grid-column: 2; grid-row: 1; font-size: 150px; }
+    body[data-page="18"] .note-copy { grid-column: 1; grid-row: 1; }
+    body[data-page="18"] .art::before { width: 240px; height: 240px; background: transparent; border: 1px dashed var(--accent); }
+    body[data-page="19"] .note { grid-template-columns: 1fr; text-align: center; }
+    body[data-page="19"] .note-copy { grid-row: 1; }
+    body[data-page="19"] .eyebrow, body[data-page="19"] .message { margin-inline: auto; }
+    body[data-page="19"] .art { grid-row: 2; min-height: 130px; }
+    body[data-page="19"] .art::before { width: 250px; height: 110px; border-radius: 50%; }
+
+    @media (max-width: 720px) {
+      body[data-page="1"] .note, body[data-page="3"] .note, body[data-page="5"] .note,
+      body[data-page="6"] .note, body[data-page="8"] .note, body[data-page="11"] .note,
+      body[data-page="12"] .note, body[data-page="15"] .note, body[data-page="17"] .note,
+      body[data-page="18"] .note { display: grid; grid-template-columns: 1fr; text-align: left; }
+      body[data-page="1"] .art, body[data-page="6"] .art, body[data-page="15"] .art,
+      body[data-page="18"] .art { grid-column: 1; grid-row: 1; }
+      body[data-page="1"] .note-copy, body[data-page="6"] .note-copy, body[data-page="15"] .note-copy,
+      body[data-page="18"] .note-copy { grid-column: 1; grid-row: 2; }
+      body[data-page="13"] .art { position: relative; left: auto; top: auto; transform: none; }
+      body[data-page="13"] .note-copy { justify-self: stretch; }
+      body[data-page="13"] .eyebrow, body[data-page="13"] .message { margin-left: 0; }
+      body[data-page="15"] .eyebrow, body[data-page="15"] .message { margin-left: 0; }
+      body[data-page="9"] .art { right: 0; bottom: 0; font-size: 110px; }
+      body[data-page="9"] .art::before { width: 170px; height: 170px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-live="polite" aria-atomic="true">
+    <article class="note" id="note">
+      <div class="note-copy">
+        <span class="eyebrow" id="eyebrow"></span>
+        <h1>Get well soon</h1>
+        <p class="message" id="message"></p>
+        <span class="signoff" id="signoff"></span>
+      </div>
+      <div class="art" id="art" aria-hidden="true"><span></span></div>
+    </article>
+  </main>
+  <button class="shuffle" id="shuffle" type="button" title="Find another note" aria-label="Find another note">↻</button>
+
+  <script>
+    const notes = [
+      { eyebrow: 'A little green for your day', message: 'May the quiet hours bring you comfort, the small things bring you joy, and each new morning feel a little lighter.', signoff: 'With the gentlest thoughts', art: '🌿' },
+      { eyebrow: 'Somewhere between stars', message: 'Rest easy beneath your own little patch of sky. There is no hurry; the whole universe can wait while you find your feet again.', signoff: 'Sending a little starlight', art: '✦' },
+      { eyebrow: 'Sunshine, delivered', message: 'Consider this a pocket-sized beam of sunshine, with extra warmth tucked inside for all the moments that need it.', signoff: 'A bright thought, just for you', art: '☀️' },
+      { eyebrow: 'A note in a quiet room', message: 'Let today ask nothing more of you than a deep breath and a soft place to land. Tomorrow can take its turn later.', signoff: 'Keeping you in my thoughts', art: '☁️' },
+      { eyebrow: 'Flowers without a vase', message: 'If I could, I would leave a whole garden at your door. For now, here is one little reminder that brighter days are growing.', signoff: 'With affection, always', art: '🌷' },
+      { eyebrow: 'Night-sky wishes', message: 'May sleep do its patient magic, may morning arrive kindly, and may you feel held by all the people cheering you on.', signoff: 'A wish on your behalf', art: '🌙' },
+      { eyebrow: 'A slower sort of day', message: 'No gold stars for getting everything done today. Your only assignment is to be gentle with yourself, one unhurried moment at a time.', signoff: 'Permission to take it easy', art: '🍵' },
+      { eyebrow: 'Something warm is coming', message: 'Picture a favorite blanket, a familiar song, and a mug warming both hands. I hope a little comfort finds you right where you are.', signoff: 'Wrapped up in good wishes', art: '🧣' },
+      { eyebrow: 'Over the rooftops', message: 'The clouds always make room for blue again. Until you see it, borrow a little hope from me: you are not going through this alone.', signoff: 'Here for brighter skies', art: '🕊️' },
+      { eyebrow: 'A tiny celebration', message: 'Every sip of water, every extra minute of rest, every small step forward counts. Today, the tiny victories are the big ones.', signoff: 'Applause for your progress', art: '✳' },
+      { eyebrow: 'Softly, softly', message: 'Healing is allowed to be slow, uneven, and entirely your own. I hope you give yourself the same kindness you so freely give everyone else.', signoff: 'No rush. Just care.', art: '🪷' },
+      { eyebrow: 'Your own little orbit', message: 'May good people gather close, may the hard parts grow smaller, and may you feel how much you matter, even on the quiet days.', signoff: 'Close by in spirit', art: '💗' },
+      { eyebrow: 'For the in-between hours', message: 'When the afternoon feels long, let this be a small hand squeeze from afar. I am sending patience for the wait and hope for what comes next.', signoff: 'A hand to hold, from here', art: '🫶' },
+      { eyebrow: 'A pocketful of wonder', message: 'Somewhere there is a song you love, a breeze at just the right temperature, and a day that will surprise you by being good. It is on its way.', signoff: 'Saving you a happy thought', art: '🦋' },
+      { eyebrow: 'Made of little comforts', message: 'May your favorite blanket stay close, your tea stay warm, and the people who make you laugh find their way to you soon.', signoff: 'All the cozy things, yours', art: '🧸' },
+      { eyebrow: 'A ripple of good things', message: 'One kind thought can change the shape of an hour. Here is mine, sent across the distance with a wish for easier days ahead.', signoff: 'Across the miles, with care', art: '🌊' },
+      { eyebrow: 'A page turned gently', message: 'You do not have to skip ahead to the good part. May this chapter meet you with rest, unexpected laughs, and a little more strength each day.', signoff: 'Cheering for your next chapter', art: '📖' },
+      { eyebrow: 'Big love, small note', message: 'Just in case today forgot to tell you: you are deeply loved, wonderfully missed, and worth every bit of patience this takes.', signoff: 'More love than fits on this page', art: '💌' },
+      { eyebrow: 'A breeze from somewhere nice', message: 'Imagine a window open to fresh air, a favorite place waiting for you, and the lovely ordinary things you will get back to in time.', signoff: 'Until the good days find you', art: '🍃' },
+      { eyebrow: 'One day at a time', message: 'There is no timetable for feeling like yourself. Take the space you need; I will be right here, rooting for every little bit of better.', signoff: 'Always on your side', art: '✨' }
+    ];
+
+    const body = document.body;
+    const note = document.querySelector('#note');
+    let previousIndex = -1;
+
+    function randomIndex() {
+      if (notes.length < 2) return 0;
+      const bytes = new Uint32Array(1);
+      let index;
+      do {
+        crypto.getRandomValues(bytes);
+        index = Math.floor((bytes[0] / 4294967296) * notes.length);
+      } while (index === previousIndex);
+      previousIndex = index;
+      return index;
+    }
+
+    function showNote() {
+      const index = randomIndex();
+      const entry = notes[index];
+      body.dataset.page = index;
+      document.querySelector('#eyebrow').textContent = entry.eyebrow;
+      document.querySelector('#message').textContent = entry.message;
+      document.querySelector('#signoff').textContent = entry.signoff;
+      document.querySelector('#art span').textContent = entry.art;
+      note.style.animation = 'none';
+      void note.offsetWidth;
+      note.style.animation = '';
+    }
+
+    document.querySelector('#shuffle').addEventListener('click', showNote);
+    showNote();
+  </script>
+</body>
+</html>
